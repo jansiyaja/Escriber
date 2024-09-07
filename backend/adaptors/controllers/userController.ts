@@ -18,9 +18,10 @@ export class UserController{
             }
             
             const newUser=await this.registerUseCase.execute({email,password,username})
+            
             return res.status(200).json(newUser)
         } catch (error) {
-            console.error('Error during user registration:', error); 
+            
             return res.status(400).json({ error: "An unexpected error occurred" });
        
             
@@ -29,13 +30,8 @@ export class UserController{
     async verifyOTP(req:Request, res: Response): Promise<Response> {
         try {
             const { email, otp } = req.body;
-            console.log("OTP received:", otp); // Log the received OTP
-            console.log("User ID received:", email); // Log the received userId
-            
-    
-            
             const isVerified = await this.verifyOTPUseCase.execute({ otp, email });
-            console.log("is verified ");
+            
             
     
             if (isVerified) {
