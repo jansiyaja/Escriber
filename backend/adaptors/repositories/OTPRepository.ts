@@ -7,19 +7,19 @@ export  class OTPVerificationRepository implements  IOTPVerificationRepository{
 
     
     async create(data: Partial<IOTPVerification>): Promise<IOTPVerification> {
-        return await OTPVerification.create(data)
+        return (await OTPVerification.create(data)).save()
     }
 
     async deleteByUserId(email: string): Promise<void> {
         await OTPVerification.findOneAndDelete({email}) 
     }
 
-   // Example of a repository method implementation
+
    async findByUserByEmail(email: string): Promise<IOTPVerification | null> {
    
-     console.log('Querying OTP for userId:', email);
+    
         const result = await OTPVerification.findOne({ email});
-          console.log('Query result:', result);
+          
          return result;
 
 }
