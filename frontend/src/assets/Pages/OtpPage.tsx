@@ -41,8 +41,8 @@ const OtpPage = () => {
      
       
       if (response.status === 200) {
-        localStorage.removeItem("emailForVerification"); // Clean up
-        navigate('/success-page'); // Navigate to success page or login
+        localStorage.removeItem("emailForVerification");
+        navigate('/login'); 
       }
     } catch (error) {
       console.error("OTP Verification error:", error);
@@ -75,7 +75,7 @@ const OtpPage = () => {
             className="mt-6 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition flex items-center justify-center"
             disabled={loading}
           >
-            {loading ? <Spinner size="h-5 w-5" color="text-white" /> : "Submit"}
+            {loading ? <Spinner size="h-5 w-5" color="text-white"  text="verifying OTP ...." /> : "submit"}
           </button>
 
           <p className="font-bodoni text-sm text-gray-500 pt-5">

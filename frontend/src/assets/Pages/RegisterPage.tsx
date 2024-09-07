@@ -25,8 +25,10 @@ const RegisterPage: React.FC = () => {
            
            
           </div>
-          
+          <div>
           <Register />
+          </div>
+         
         </div>
       </div>
     </div>
