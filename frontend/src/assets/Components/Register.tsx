@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../Components/Spinner"; // Adjust the path as necessary
 
 export interface IRegister {
   username: string;
   password: string;
   email: string;
   confirmPassword: string;
-  
 }
 
 export interface IErrorState {
@@ -14,8 +15,7 @@ export interface IErrorState {
   email?: string;
   password?: string;
   confirmPassword?: string;
-  generic?:string
- 
+  generic?: string;
 }
 
 const Register: React.FC = () => {
@@ -26,6 +26,9 @@ const Register: React.FC = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<Partial<IErrorState>>({});
+  const [loading, setLoading] = useState(false); // Loading state
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -72,8 +75,6 @@ const Register: React.FC = () => {
       tempErrors.confirmPassword = "Passwords do not match";
     }
 
-   
-
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -81,27 +82,28 @@ const Register: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateInputs()) return;
-
+  
+    setLoading(true);
+  
     try {
-       await axios.post("/api/register", {
-        username: register.username,
-        email: register.email,
-        password: register.password,
-      });
-
-     ;
-
-      
+      const response = await axios.post('http://localhost:3000/users/register', register);
+      if (response.status === 200) {
+        
+        localStorage.setItem("emailForVerification", register.email);
+        navigate('/OTP-Verification');
+      }
     } catch (error) {
       console.error("Registration error:", error);
       setErrors({ generic: "Registration failed. Please try again." });
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   return (
     <>
       <form onSubmit={handleRegister}>
-        <div className="mb-4">
+      <div className="mb-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">
             Name
           </label>
@@ -168,16 +170,22 @@ const Register: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition duration-300"
+          className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition duration-300 flex justify-center items-center"
+          disabled={loading} 
         >
-          Create Account
+          {loading ? <Spinner size="h-5 w-5" color="text-white" text="Creating Account..." /> : "Create Account"}
         </button>
 
-       
+        {errors.generic && (
+          <p className="text-red-500 text-sm mt-1 text-center">{errors.generic}</p>
+        )}
 
         <div className="mt-6 text-center">
           <p className="mt-4 text-sm text-gray-600">
-            Already have an account? <a href="/login" className="text-blue-600 hover:underline">Login</a>
+            Already have an account?{" "}
+            <a href="/login" className="text-blue-600 hover:underline">
+              Login
+            </a>
           </p>
         </div>
       </form>
