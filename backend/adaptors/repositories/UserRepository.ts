@@ -6,8 +6,9 @@ import UserModel from "../../frameworks/database/models/userModel";
 export class UserRepository  implements IUserRepository{
 
  async create(user: IUser): Promise<IUser> {
-    const result=await UserModel.create(user);
-    return result.toObject()
+    const newUser = new UserModel(user);
+    return newUser.save()
+
  }
  async findById(id: string): Promise<IUser | null> {
      return await UserModel.findById(id).lean().exec();
@@ -35,7 +36,9 @@ export class UserRepository  implements IUserRepository{
      await UserModel.findByIdAndDelete(id).lean().exec()
  }
 
- async markAsVerified(id: string): Promise<void> {
-    await UserModel.findById(id).lean().exec()
- }
+ async markAsVerified(email: string): Promise<void> {
+     await UserModel.findOneAndUpdate({ email: email }, { isVerified: true }, { new: true }).exec();
+     
+}
+
 }
