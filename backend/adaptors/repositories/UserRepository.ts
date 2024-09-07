@@ -1,4 +1,4 @@
-import { IUserRepository } from "../../adaptors/repositories/IUserRepository";
+import { IUserRepository } from "../../application/repositories/IUserRepository";
 import { IUser } from "../../enitites/User";
 import UserModel from "../../frameworks/database/models/userModel";
 
@@ -33,5 +33,9 @@ export class UserRepository  implements IUserRepository{
 
  async delete(id: string): Promise<void> {
      await UserModel.findByIdAndDelete(id).lean().exec()
+ }
+
+ async markAsVerified(id: string): Promise<void> {
+    await UserModel.findById(id).lean().exec()
  }
 }

@@ -1,0 +1,9 @@
+import { IOTPVerification } from "../../enitites/IOTPVerification";
+
+
+
+export interface IOTPVerificationRepository{
+    findByUserByEmail(email:string):Promise<IOTPVerification|null>;
+    deleteByUserId(w:string):Promise<void>;
+    create(data:Partial<IOTPVerification>):Promise<IOTPVerification>
+}

@@ -8,24 +8,28 @@ import { IUser } from '../../../enitites/User';
 
 const UserSchema: Schema = new Schema(
   {
-    Name: { type: String ,
+    username: { type: String ,
            require:true
             },
-    Email: { type: String ,
+    email: { type: String ,
              unique:true,
             require:true},
-    Password: { type: String,
+    password: { type: String,
                 require:true
      },
-    Bio: { type: String,
+    bio: { type: String,
       require:true
     },
-    Dob: { type: Date,
+    dob: { type: Date,
       require:true
      },
-    Role: { type: String, enum: ['client', 'user'] },
-    Image: { type: String },
-    IsActive: { type: Boolean, default: true },
+    role: { type: String, enum: ['client', 'user'] },
+    image: { type: String },
+    isActive: { type: Boolean, default: true },
+    isVerified: {
+      type: Boolean,
+      default: false, 
+    },
   },
   {
     timestamps: true, 
