@@ -1,12 +1,18 @@
 import React from "react";
 
 interface SpinnerProps {
-  size?: string;
-  color?: string;
-  text?: string;
+  size: string;
+  color: string;
+  text: string;
+  isLoading: boolean; 
 }
 
-const Spinner: React.FC<SpinnerProps> = ({ size = "h-5 w-5", color = "text-blue-600", text }) => {
+const Spinner: React.FC<SpinnerProps> = ({ size = "h-5 w-5", color = "text-blue-600", text="",  isLoading   }) => {
+
+
+  if (!isLoading) {
+    return null; 
+  }
   return (
     <div className="flex items-center justify-center space-x-2">
       <svg

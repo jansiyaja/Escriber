@@ -1,10 +1,9 @@
 import React from 'react';
+import Register from '../Components/Auth/Register';
+import FreeVector from '../assets/Images/women.png';
 
-import FreeVector from '../Images/women.png';
-import Login from '../Components/Login';
 
-
-const LoginPage: React.FC = () => {
+const RegisterPage: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
    
@@ -27,7 +26,7 @@ const LoginPage: React.FC = () => {
            
           </div>
           <div>
-        <Login/>
+          <Register />
           </div>
          
         </div>
@@ -36,4 +35,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
