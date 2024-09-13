@@ -1,5 +1,5 @@
 
-import { IOTPVerificationRepository } from "../../application/repositories/IOTPVerificationRepo";
+import { IOTPVerificationRepository } from "../../interfaces/repositories/IOTPVerificationRepo";
 import { IOTPVerification } from "../../enitites/IOTPVerification";
 import OTPVerification from "../../frameworks/database/models/OTPVerification";
 
@@ -22,6 +22,31 @@ export  class OTPVerificationRepository implements  IOTPVerificationRepository{
           
          return result;
 
+   }
+
+
+   async updateOtp(email: string, newOtp: string): Promise<IOTPVerification | null> {
+     
+    const otpRecord = await OTPVerification.findOneAndUpdate(
+        { email },
+        { email,otp: newOtp },
+        { new: true, upsert: true } 
+    );
+    console.log("otprec",otpRecord);
+    
+    if (otpRecord) {
+        otpRecord.otp = newOtp;
+       
+        await otpRecord.save();  
+        return otpRecord;
+    } else {
+        
+        throw new Error(`No OTP found for email: ${email}`);
+       
+    }
+   }
 }
 
-}
+
+
+   
